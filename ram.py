@@ -52,8 +52,14 @@ def b1():
         
         
         link=[h2[i].get_attribute('href') for i in range(0,len(h2))]
-        h=[k for k in range(3,24,2)]
-        d.get(link[h[j]])
+        if j<=5:
+            h=[k for k in range(2,14,2)]
+            d.get(link[h[j]])
+        else:
+            h=[k for k in range(0,24,2)]
+            h.remove(14)
+            h.remove(12)
+            d.get(link[h[j]])
     
         L=d.find_element(By.TAG_NAME,"body")
         L.send_keys(Keys.PAGE_DOWN) 
