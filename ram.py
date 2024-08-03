@@ -46,7 +46,7 @@ def b1():
     star=[]
     h=[k for k in range(3,24,2)]
 
-    j=4
+    j=0
     while j<=10:
         h2=d.find_elements(By.CSS_SELECTOR,"a[class='D113_link']")
         
@@ -83,11 +83,11 @@ def b1():
                 
                 l=d.find_element(By.TAG_NAME,"body")
                 w=WebDriverWait(d,10)
-                u=w.until(EC.element_to_be_clickable((By.XPATH,"//*[@id='fixer']/div/div/div[1]/span[3]/i")))
+                u=w.until(EC.element_to_be_clickable((By.CSS_SELECTOR,"span[class='next']")))
                 actions = ActionChains(d)
                 actions.move_to_element(u).perform()  
                 u.click()
-                time.sleep(3)
+                time.sleep(1)
                 try:
                     mt1=w.until(EC.presence_of_element_located((By.CSS_SELECTOR,"i[class='p-left-10 icon icon-down']")))
                     mt1.click()
@@ -102,8 +102,8 @@ def b1():
                         time.sleep(2)
                     
                         new_page_source=d.page_source
-                        i+=5
-                        if i>=40:
+                        i+=6
+                        if i>=60:
                             break     
                     bus_name=d.find_elements(By.CSS_SELECTOR,"div[class='travels lh-24 f-bold d-color']")
                     all_bus_name=[h.text for h in bus_name]
@@ -148,7 +148,7 @@ def b1():
                     d.back()
                     d.back()
                 R+=1 
-                if R>=2: 
+                if R>=len(name)-1: 
                     break    
                         
             if t>=len(n)+1:
@@ -168,15 +168,17 @@ def b1():
             c9=pd.DataFrame(details)
             w1=",".join(f"{i2} {j3}"
             for i2,j3 in zip(c9.columns,c9.dtypes)).replace("object","text").replace("int64","int").replace("float64","float")
-            print(w1)
-            print(g[h[j]])
-            g1=['TNSTC','Puducherry Road Transport Corporation ','Kadamba Transport Corporation Limited ','KSRTC ','APSRTC','TSRTC', 'Bihar State Tourism Development Corporation ',
-                'South_Bengal_State_Transport_Corporation ','West_Bengal_Transport_Corporation','NORTh_BENGAL_STATE_TRANSPORT_CORPORATION','BSRTC_Operated_By_VIP_Travels',
-                'Bihar_State_Road_Transport_Corporation ','WBTC ','PEPSU ','RSRTC','HRTC','UPSRTC','Chandigarh_Transport_Undertaking ','PEPSU ',
-                'Himachal_Pradesh_Tourism_Development_Corporation ','Sikkim_Nationalised_Transport ','Meghalaya_Transport_Corporation','KAAC_TRANSPORT','Assam_State_Transport_Corporation ','GSRTC']
-            h3=[k for k in range(3,24,2)]
+            g1=['BSTDC', 'West_Bengal_Transport_Corporation','BSRTC', 'NORTH_BENGAL_STATE_TRANSPORT_CORPORATION','CTC','BSRTC_Operated_By_VIP_Travels','SBSTC','HPTDC', 
+                'PEPSU','PEPSU','RSRTC','HRTC','UPSRTC','CTU','PRTC','TNSTC','KSRTC','KTCL','TSRTC','APSRTC','ASTC','KAAC_TRANSPORT','SNT', 
+                'MTC','GSRTC']
+            if j<=5:
+                h3=[k for k in range(2,14,2)]
+            else:
+                h3=[k for k in range(0,24,2)]
+                h3.remove(14)
+                h3.remove(12)
             r2=f"create table {g1[h3[j]]}({w1})"  
-            myconnection=pymysql.connect(host='127.0.0.1',user='root',password='Ramk@2001',database='Redbus')
+            myconnection=pymysql.connect(host='127.0.0.1',user='root',password='Ramk@2001',database='Redbus_info')
             myconnection.cursor().execute(r2) 
             r3=f"insert into {g1[h3[j]]} values"
             for i in range(len(c9)):
@@ -195,77 +197,84 @@ def b1():
             star.clear()
             route_1link.clear()
             j+=1
-            d.get('https://www.redbus.in/online-booking/rtc-directory')                                          
+            d.get('https://www.redbus.in/online-booking/rtc-directory')   
+b=b1()                                                   
 with st.sidebar:
     st.title(":red[RedBus]")
     st.header("Done with")
     st.caption("Selenium")
     st.caption("MySQL")
     st.caption("Python")
-myconnection=pymysql.connect(host='127.0.0.1',user='root',password='Ramk@2001',database='Redbus')   
+myconnection=pymysql.connect(host='127.0.0.1',user='root',password='Ramk@2001',database='Redbus_info')   
 cursor=myconnection.cursor()
-Buses=st.radio("SELECT THE BUSES",("KSRTC","TSRTC","South_Bengal_State_Transport_Corporation","PEPSU","NORTh_BENGAL_STATE_TRANSPORT_CORPORATION","Chandigarh_Transport_Undertaking","Bihar_State_Road_Transport_Corporation","Assam_State_Transport_Corporation","HRTC","Meghalaya_Transport_Corporation"))  
-if Buses=="KSRTC":
-    query="select * from KSRTC"
+Buses=st.radio("SELECT THE BUSES",('BSRTC','CTC','SBSTC','PEPSU','RSRTC','UPSRTC','KSRTC','TSRTC','HRTC','ASTC','SNT'))  
+if Buses=='BSRTC':
+    query="select * from BSRTC"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
     st.write(df)
 
-elif Buses=="TSRTC":
-    query="select * from TSRTC"
+elif Buses=='CTC':
+    query="select * from CTC"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
     st.write(df)
-elif Buses=="South_Bengal_State_Transport_Corporation":
-    query="select * from South_Bengal_State_Transport_Corporation"
+elif Buses=='SBSTC':
+    query="select * from SBSTC"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
     st.write(df)
-elif Buses=="PEPSU":
+elif Buses=='PEPSU':
     query="select * from PEPSU"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
     st.write(df)
-elif Buses=="NORTh_BENGAL_STATE_TRANSPORT_CORPORATION":
-    query="select * from NORTh_BENGAL_STATE_TRANSPORT_CORPORATION"
+elif Buses=='RSRTC':
+    query="select * from RSRTC"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
     st.write(df)
-elif Buses=="Chandigarh_Transport_Undertaking":
-    query="select * from Chandigarh_Transport_Undertaking"
+elif Buses=='UPSRTC':
+    query="select * from UPSRTC"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
     st.write(df)
-elif Buses=="Bihar_State_Road_Transport_Corporation":
-    query="select * from Bihar_State_Road_Transport_Corporation"
+elif Buses=='KSRTC':
+    query="select * from KSRTC"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
     st.write(df)    
-elif Buses=="Assam_State_Transport_Corporation":
-    query="select * from Assam_State_Transport_Corporation"
+elif Buses=='TSRTC':
+    query="select * from TSRTC"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
     st.write(df)   
-elif Buses=="HRTC":
+elif Buses=='HRTC':
     query="select * from HRTC"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
     st.write(df)                              
-elif Buses=="Meghalaya_Transport_Corporation":
-    query="select * from Meghalaya_Transport_Corporation"
+elif Buses=='ASTC':
+    query="select * from ASTC"
     cursor.execute(query)
     t1=cursor.fetchall()
     df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)                              
+    st.write(df)      
+elif Buses=='SNT':
+    query="select * from SNT"
+    cursor.execute(query)
+    t1=cursor.fetchall()
+    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+    st.write(df)                                                          
 Search_BUS=st.text_input("Enter State_name")
 from_to=st.text_input("Enter from-to")
 top_buses=st.selectbox("Top_buses",("top rating",
