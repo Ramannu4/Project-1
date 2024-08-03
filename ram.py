@@ -1,7 +1,6 @@
 from selenium import webdriver#for automation
 from selenium.webdriver.common.by import By# for indentify 
 from selenium.webdriver.common.keys import Keys#to insert values
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import ActionChains
@@ -41,7 +40,6 @@ def b1():
     Arrival=[]
     StarRating=[]
     Price=[]
-    Seats_Available=[]
     seats=[]
     star=[]
     h=[k for k in range(3,24,2)]
@@ -102,8 +100,8 @@ def b1():
                         time.sleep(2)
                     
                         new_page_source=d.page_source
-                        i+=6
-                        if i>=60:
+                        i+=5
+                        if i>=40:
                             break     
                     bus_name=d.find_elements(By.CSS_SELECTOR,"div[class='travels lh-24 f-bold d-color']")
                     all_bus_name=[h.text for h in bus_name]
@@ -182,7 +180,7 @@ def b1():
             myconnection.cursor().execute(r2) 
             r3=f"insert into {g1[h3[j]]} values"
             for i in range(len(c9)):
-                myconnection.cursor().execute(f"insert into {g1[h3[j]]} values {tuple(c9.iloc[i])}")
+                myconnection.cursor().execute(f"insert into {g1[h3[j]]} {tuple(c9.iloc[i])} values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s")
                 myconnection.commit()
         
             p.clear()
