@@ -209,8 +209,8 @@ def b1():
             star.clear()
             route_1link.clear()
             j+=1
-            d.get('https://www.redbus.in/online-booking/rtc-directory')    
-b=b1()                                                                        
+            d.get('https://www.redbus.in/online-booking/rtc-directory')            
+b=b1()                                                                           
 with st.sidebar:
     st.title(":red[RedBus]")
     st.header("Done with")
@@ -283,20 +283,44 @@ elif Buses=='SNT':
     st.write(df)                                                          
 Search_BUS=st.text_input("Enter State_name")
 from_to=st.text_input("Enter from-to")
-top_buses=st.selectbox("Top_buses",("top rating",
-                                    "less price"))
+buses=st.selectbox("Top_buses",("top rating",
+                                    "less price",
+                                    "Government BUS",
+                                    "AC",
+                                    "NON-AC"))
 if Search_BUS and from_to:
-    if top_buses=="top rating":
+    if buses=="top rating":
         query=f"select * from {Search_BUS} where route_name='{from_to}' order by Starrating desc;"
         print(query)
         cursor.execute(query)
         t1=cursor.fetchall()
         df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
         st.write(df)     
-    elif top_buses=="less price":
+    elif buses=="less price":
         query=f"select * from {Search_BUS} where route_name='{from_to}' order by Price asc;"
         print(query)
         cursor.execute(query)
         t1=cursor.fetchall()
         df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
         st.write(df)     
+    elif buses=="Government BUS":
+        query=f"select * from {Search_BUS} where Bus_name like '%{Search_BUS}%' order by Duration asc;"
+        print(query)
+        cursor.execute(query)
+        t1=cursor.fetchall()
+        df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+        st.write(df)         
+    elif buses=="AC":
+        query=f"select * from {Search_BUS} where Bus_name like '%{Search_BUS}%' and Bus_type not like '%Non%' order by Duration asc;"
+        print(query)
+        cursor.execute(query)
+        t1=cursor.fetchall()
+        df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+        st.write(df)             
+    elif buses=="NON-AC":
+        query=f"select * from {Search_BUS} where Bus_name like '%{Search_BUS}%' and Bus_type  like '%Non%' order by Duration asc;"
+        print(query)
+        cursor.execute(query)
+        t1=cursor.fetchall()
+        df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+        st.write(df)                 
