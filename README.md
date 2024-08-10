@@ -24,4 +24,13 @@ Firstly I used selenium tool to scrap data which one of HTML tool from dynamic w
 with a basic knowledge of selenium tool  i scrapped the data and converted into dataframe and stored into MySQL 
 In MySQL i stored ten different state buses info into single tables and using that stored data i made streamlit interface
 In streamlit interaface i made queries to display the info of different state buses and converted into dataframe then displayed like table format 
+Step-1:
+scrapping the data from redbus website
+step-2
+using pandas fromatted into dataframe
+step-3
+then loading the dataframe data into sql
+step-4
+then creating streamlit for friendly user interface
+by creating queries in sql and connecting sql with streamlit and showing the respective query output in the streamlit
 
