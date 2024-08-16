@@ -41,12 +41,11 @@ def b1():
     Arrival=[]
     StarRating=[]
     Price=[]
-    Seats_Available=[]
     seats=[]
     star=[]
     h=[k for k in range(3,24,2)]
 
-    j=8
+    j=0
     while j<=10:
         h2=d.find_elements(By.CSS_SELECTOR,"a[class='D113_link']")
         
@@ -66,12 +65,10 @@ def b1():
         n=d.find_elements(By.CLASS_NAME,"DC_117_pageTabs")
         t=2
         while t<=len(n)+1:
-            y=0
             m=d.find_element(By.CLASS_NAME,"DC_117_paginationTable")
             link=[h.get_attribute('href') for h in d.find_elements(By.CSS_SELECTOR,"a[class='route']")]
             route_1link.extend(link)
             name=[h.get_attribute('title') for h in d.find_elements(By.CSS_SELECTOR,"a[class='route']")]
-            y+=1
             R=0
             while R>=0:
                 wait=WebDriverWait(d,10)
@@ -100,7 +97,7 @@ def b1():
                     finally: 
                         i=0   
                         while i>=0:
-                            old_page_source=d.page_source   #selenium function
+                            old_page_source=d.page_source   
                         
                             body=d.find_element(By.TAG_NAME,"body").send_keys(Keys.PAGE_DOWN)
                             time.sleep(2)
@@ -184,7 +181,7 @@ def b1():
                 h3.remove(14)
                 h3.remove(12)
             r2=f"create table {g1[h3[j]]}({w1})"  
-            myconnection=pymysql.connect(host='127.0.0.1',user='root',password='Ramk@2001',database='Redbus_info')
+            myconnection=pymysql.connect(host='127.0.0.1',user='root',password='Ramk@2001',database='Redbus')
             cursor=myconnection.cursor()
             myconnection.cursor().execute(r2) 
             r3=f"insert into {g1[h3[j]]} values"
@@ -209,118 +206,152 @@ def b1():
             star.clear()
             route_1link.clear()
             j+=1
-            d.get('https://www.redbus.in/online-booking/rtc-directory')            
-b=b1()                                                                           
+            d.get('https://www.redbus.in/online-booking/rtc-directory')                                                                                     
 with st.sidebar:
     st.title(":red[RedBus]")
-    st.header("Done with")
+    st.header('Home')
+    st.subheader("Project Done By Using")
     st.caption("Selenium")
     st.caption("MySQL")
     st.caption("Python")
+
+st.title("Welcome to Redbus")
+st.image("/Users/ramkumarbalusamy/Downloads/project/ram/red.jpeg",width=800)    
+st.title("Profile")
+Name,age=st.columns(2)
+h=Name.text_input("Name")
+age.text_input("Age")
+Email,MobileNo=st.columns([3,1])
+Email.text_input("Email")
+MobileNo.text_input("Mob NO")
+Password,Repassword=st.columns(2)
+Password.text_input("Password",type="password")
+Repassword.text_input("Re-password",type="password")
+ch,sb=st.columns(2)
+ch.checkbox("I agree")
+sb.button("Submit")
+S=st.checkbox("Show Buses")
 myconnection=pymysql.connect(host='127.0.0.1',user='root',password='Ramk@2001',database='Redbus_info')   
 cursor=myconnection.cursor()
-Buses=st.radio("SELECT THE BUSES",('BSRTC','CTC','SBSTC','PEPSU','RSRTC','UPSRTC','KSRTC','TSRTC','ASTC','SNT'))  
-if Buses=='BSRTC':
-    query="select * from BSRTC"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)
+if S:
+    Buses=st.radio("SELECT THE BUSES",('BSRTC','CTC','SBSTC','PEPSU','RSRTC','UPSRTC','KSRTC','TSRTC','ASTC','SNT'))  
+    if Buses=='BSRTC':
+        query="select * from BSRTC"
+        cursor.execute(query)
+        t1=cursor.fetchall()
+        df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+        st.write(df)
 
-elif Buses=='CTC':
-    query="select * from CTC"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)
-elif Buses=='SBSTC':
-    query="select * from SBSTC"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)
-elif Buses=='PEPSU':
-    query="select * from PEPSU"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)
-elif Buses=='RSRTC':
-    query="select * from RSRTC"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)
-elif Buses=='UPSRTC':
-    query="select * from UPSRTC"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)
-elif Buses=='KSRTC':
-    query="select * from KSRTC"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)    
-elif Buses=='TSRTC':
-    query="select * from TSRTC"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)           
-elif Buses=='ASTC':
-    query="select * from ASTC"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)      
-elif Buses=='SNT':
-    query="select * from SNT"
-    cursor.execute(query)
-    t1=cursor.fetchall()
-    df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-    st.write(df)                                                          
-Search_BUS=st.text_input("Enter State_name")
-from_to=st.text_input("Enter from-to")
-buses=st.selectbox("Top_buses",("top rating",
-                                    "less price",
-                                    "Government BUS",
-                                    "AC",
-                                    "NON-AC"))
-if Search_BUS and from_to:
-    if buses=="top rating":
-        query=f"select * from {Search_BUS} where route_name='{from_to}' order by Starrating desc;"
-        print(query)
+    elif Buses=='CTC':
+        query="select * from CTC"
         cursor.execute(query)
         t1=cursor.fetchall()
         df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-        st.write(df)     
-    elif buses=="less price":
-        query=f"select * from {Search_BUS} where route_name='{from_to}' order by Price asc;"
-        print(query)
+        st.write(df)
+    elif Buses=='SBSTC':
+        query="select * from SBSTC"
         cursor.execute(query)
         t1=cursor.fetchall()
         df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-        st.write(df)     
-    elif buses=="Government BUS":
-        query=f"select * from {Search_BUS} where Bus_name like '%{Search_BUS}%' order by Duration asc;"
-        print(query)
+        st.write(df)
+    elif Buses=='PEPSU':
+        query="select * from PEPSU"
         cursor.execute(query)
         t1=cursor.fetchall()
         df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-        st.write(df)         
-    elif buses=="AC":
-        query=f"select * from {Search_BUS} where Bus_name like '%{Search_BUS}%' and Bus_type not like '%Non%' order by Duration asc;"
-        print(query)
+        st.write(df)
+    elif Buses=='RSRTC':
+        query="select * from RSRTC"
         cursor.execute(query)
         t1=cursor.fetchall()
         df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-        st.write(df)             
-    elif buses=="NON-AC":
-        query=f"select * from {Search_BUS} where Bus_name like '%{Search_BUS}%' and Bus_type  like '%Non%' order by Duration asc;"
-        print(query)
+        st.write(df)
+    elif Buses=='UPSRTC':
+        query="select * from UPSRTC"
         cursor.execute(query)
         t1=cursor.fetchall()
         df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
-        st.write(df)                 
+        st.write(df)
+    elif Buses=='KSRTC':
+        query="select * from KSRTC"
+        cursor.execute(query)
+        t1=cursor.fetchall()
+        df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+        st.write(df)    
+    elif Buses=='TSRTC':
+        query="select * from TSRTC"
+        cursor.execute(query)
+        t1=cursor.fetchall()
+        df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+        st.write(df)           
+    elif Buses=='ASTC':
+        query="select * from ASTC"
+        cursor.execute(query)
+        t1=cursor.fetchall()
+        df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+        st.write(df)      
+    elif Buses=='SNT':
+        query="select * from SNT"
+        cursor.execute(query)
+        t1=cursor.fetchall()
+        df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+        st.write(df)                                                          
+    Search_BUS=st.text_input("Enter State_name")
+    from_to=st.text_input("Enter from-to")
+    buses=st.selectbox("buses",("top rating",
+                                        "less price",
+                                        "Government BUS",
+                                        "AC",
+                                        "NON-AC"))
+    if Search_BUS and from_to:
+        if buses=="top rating":
+            query=f"select * from {Search_BUS} where route_name='{from_to}' order by Starrating desc;"
+            print(query)
+            cursor.execute(query)
+            t1=cursor.fetchall()
+            df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+            st.write(df)     
+        elif buses=="less price":
+            query=f"select * from {Search_BUS} where route_name='{from_to}' order by Price asc;"
+            print(query)
+            cursor.execute(query)
+            t1=cursor.fetchall()
+            df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+            st.write(df)     
+        elif buses=="Government BUS":
+            query=f"select * from {Search_BUS} where Bus_name like '%{Search_BUS}%' order by Duration asc;"
+            print(query)
+            cursor.execute(query)
+            t1=cursor.fetchall()
+            df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+            st.write(df)         
+        elif buses=="AC":
+            query=f"select * from {Search_BUS} where Bus_name like '%{Search_BUS}%' and Bus_type not like '%Non%' order by Duration asc;"
+            print(query)
+            cursor.execute(query)
+            t1=cursor.fetchall()
+            df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+            st.write(df)             
+        elif buses=="NON-AC":
+            query=f"select * from {Search_BUS} where Bus_name like '%{Search_BUS}%' and Bus_type  like '%Non%' order by Duration asc;"
+            print(query)
+            cursor.execute(query)
+            t1=cursor.fetchall()
+            df=pd.DataFrame(t1,columns=["route_name","route_link","Bus_name","Bus_type","Departure","Duration","Arrival","Starrating","Price","Seats"])
+            st.write(df)   
+Bus_type=st.text_input("Bustype")
+Bus_Name=st.text_input("BusName")
+Price=st.text_input("Price")                        
+selected=st.checkbox("Details")
+if selected:
+    st.write(Search_BUS)     
+    st.write(from_to)         
+    st.write(Bus_type)
+    st.write(Bus_Name)
+    st.write(Price)
+
+pay=st.checkbox("Payment")   
+if pay:
+    st.write("Booking Confirmed",h)
+    st.text("Thanks for choosing Redbus")
+    st.snow()
