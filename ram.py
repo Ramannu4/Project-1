@@ -206,7 +206,8 @@ def b1():
             star.clear()
             route_1link.clear()
             j+=1
-            d.get('https://www.redbus.in/online-booking/rtc-directory')                                                                                     
+            d.get('https://www.redbus.in/online-booking/rtc-directory')    
+B=b1()            
 with st.sidebar:
     st.title(":red[RedBus]")
     st.header('Home')
